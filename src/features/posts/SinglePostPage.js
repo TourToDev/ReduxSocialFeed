@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+
+const selectPostById =   postId  => state => state.posts.find(post => post.id === postId)
 
 export default function SinglePostPage(props) {
     const {match} = props;
@@ -8,10 +11,8 @@ export default function SinglePostPage(props) {
     
     //console.log(postId);
 
-    const posts = useSelector( state => state.posts )
-
-    //console.log(posts)
-    const post = posts.find( post => post.id === postId );
+    //Select the smallest amount of data we need
+    const post = useSelector( selectPostById( postId ) )
 
     if (!post) {
         return (
@@ -23,10 +24,13 @@ export default function SinglePostPage(props) {
 
     return(
         <section>
+            
             <article>
                 <h2>{post.title}</h2>
                 <p>{post.content}</p>
             </article>
+
+            <Link to={ `/edit/${post.id}` }>Edit This Post</Link>
         </section>
     )
 }

@@ -6,8 +6,11 @@ import { postAdded } from "./postsSlice";
 export default function AddPostForm() {
     const dispatch = useDispatch()
 
+    const [visible, setVisible] = useState("fold")
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("")
+
+    const toggleVisible = () => visible==='fold'? setVisible("unfold") : setVisible("fold")
 
     const onTitleChange = (e) => setTitle(e.target.value);
 
@@ -30,27 +33,32 @@ export default function AddPostForm() {
     
     return (
         <section>
-            <h2>Add A New Post</h2>
-            <form>
-                <label htmlFor="postTitle">Post Title:</label>
-                <input
-                    type="text"
-                    id="postTitle"
-                    className="postTitle"
-                    value={title}
-                    onChange={onTitleChange}/>
-                <label htmlFor="postContent">Post Content:</label>
-                <textarea
-                    id="postContent"
-                    className="postContent"
-                    value={content}
-                    onChange={onContentChange}>
-                </textarea>
+            <h3 onClick={ () => toggleVisible() } style={{cursor:"pointer"}}>Add A New Post</h3>
+            {visible==="unfold"? 
+                <form>
+                    <label htmlFor="postTitle">Post Title:</label>
+                    <input
+                        type="text"
+                        id="postTitle"
+                        className="postTitle"
+                        value={title}
+                        onChange={onTitleChange}/>
+                    <label htmlFor="postContent">Post Content:</label>
+                    <textarea
+                        id="postContent"
+                        className="postContent"
+                        value={content}
+                        onChange={onContentChange}>
+                    </textarea>
 
-                <button type="button" onClick={onSavedPost}>
-                    Save Post
-                </button>
-            </form>
+                    <button type="button" onClick={onSavedPost}>
+                        Save Post
+                    </button>
+                </form> :
+
+                <div></div>
+            }
+
         </section>
     )
 }
